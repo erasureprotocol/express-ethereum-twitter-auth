@@ -1,0 +1,48 @@
+{
+  "name": "express-twitter-ethereum-auth",
+  "version": "0.1.0",
+  "description": "adds express routes for linking a twitter ouath account to an ethereum address",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint 'src/**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erasureprotocol/express-twitter-ethereum-auth.git"
+  },
+  "keywords": [
+    "twitter",
+    "ethereum",
+    "express"
+  ],
+  "author": "jason@numer.ai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erasureprotocol/express-twitter-ethereum-auth/issues"
+  },
+  "homepage": "https://github.com/erasureprotocol/express-twitter-ethereum-auth#readme",
+  "dependencies": {
+    "aws-sdk": "^2.610.0",
+    "ethers": "^4.0.44",
+    "express": "^4.17.1",
+    "express-promise-router": "^3.0.3",
+    "express-session": "^1.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-twitter": "^1.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1"
+  }
+}
