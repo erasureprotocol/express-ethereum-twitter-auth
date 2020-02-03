@@ -16,4 +16,4 @@ jobs:
           paths:
             - node_modules
       - run: yarn run lint
-      - run: yarn run test-server
+      - run: yarn run test
