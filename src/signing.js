@@ -31,10 +31,11 @@ const eip1271Abi = [
 ]
 
 class ChallengeVerifier {
-  constructor(jwt_secret, provider) {
-    this.JWT_SECRET = jwt_secret
+  constructor(jwtSecret, provider) {
+    this.JWT_SECRET = jwtSecret
     this.provider = provider
   }
+
   async generateChallenge(twitterID) {
     return jwtSign(
       {
