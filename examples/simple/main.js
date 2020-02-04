@@ -20,7 +20,8 @@ const consumerSecret = process.env.TWITTER_CLIENT_SECRET
 
 // Setup twitter+eth auth and add routes
 eeta.setupAuth(app, consumerKey, consumerSecret)
-app.use(eeta.routes())
+const JWT_SECRET = 'THIS_SHOULD_BE_A_SECRET'
+app.use(eeta.routes(JWT_SECRET))
 
 // These are the routes you should define. For our purposes, we just return a
 // simple login link if the user isn't logged in, else we display the username
