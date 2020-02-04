@@ -1,5 +1,5 @@
 {
-  "name": "express-twitter-ethereum-auth",
+  "name": "express-ethereum-twitter-auth",
   "version": "0.1.0",
   "description": "adds express routes for linking a twitter ouath account to an ethereum address",
   "main": "src/index.js",
