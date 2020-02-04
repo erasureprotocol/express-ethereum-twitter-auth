@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.22/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/authereum@0.0.4-beta.84/authereum.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script src="/index.js"></script>
+    <style>
+      button {
+        margin-bottom: 10px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to the kitchen sink example</h1>
+    <div class="container">
+      <div class="row">
+        <button onClick="verifyLinkAccounts()" class="btn btn-primary" disabled>
+          Link Twitter + Authereum
+        </button>
+        <div id="sign-msg-info" class="login-info">
+          Must be logged into authereum and twitter
+        </div>
+      </div>
+      <div class="row">
+        <button onClick="logout()" class="btn btn-primary">Logout</button>
+        <div id="logout-info"></div>
+      </div>
+    </div>
+  </body>
+</html>
