@@ -8,6 +8,7 @@ In your express app's initialization, do the following:
 const express = require('express')
 const session = require('express-session')
 const eeta = require('express-ethereum-twitter-auth')
+
 const app = express()
 
 // You need to use express-session for the default auth to persist

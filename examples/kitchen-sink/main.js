@@ -24,7 +24,7 @@ const consumerSecret = process.env.TWITTER_CLIENT_SECRET
 // Setup twitter+eth auth and add routes
 eeta.setupAuth(app, consumerKey, consumerSecret)
 const JWT_SECRET = 'THIS_SHOULD_BE_A_SECRET'
-app.use(eeta.routes(JWT_SECRET))
+app.use(eeta.routes(JWT_SECRET, 'erasurebay-dev'))
 
 // Disables caching on our GET routes
 app.set('etag', false)

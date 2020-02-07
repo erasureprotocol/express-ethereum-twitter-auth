@@ -1,19 +1,22 @@
 const passport = require('passport')
 const express = require('express')
+const util = require('util')
 
-// const S3 = require('aws-sdk/clients/s3')
+const S3 = require('aws-sdk/clients/s3')
 
 const setupRoutes = (
   app,
   challengeVerifier,
+  s3BucketName,
   pathPrefix = '/_auth/eeta',
   loginFailedRouteArg,
-  s3BucketName,
 ) => {
   app.use(express.json())
-  // var s3bucket = new S3({
-  //   params: { Bucket: s3BucketName },
-  // })
+  var s3bucket = new S3({
+    params: { Bucket: s3BucketName },
+  })
+  const s3Upload = util.promisify(s3bucket.upload.bind(s3bucket))
+  const s3GetObject = util.promisify(s3bucket.getObject.bind(s3bucket))
 
   let loginFailedRoute = loginFailedRouteArg
   if (!loginFailedRouteArg) {
@@ -41,6 +44,56 @@ const setupRoutes = (
       return
     }
     res.json(req.user)
+  })
+
+  app.get(`${pathPrefix}/user/twitter/:id`, async function(req, res) {
+    let data
+    try {
+      data = await s3GetObject({ Key: `twitterToEth/${req.params.id}` })
+    } catch (e) {
+      if (e.code === 'NoSuchKey') {
+        res.status(404).end()
+        return
+      }
+      console.error(
+        'unexpected error getting s3 for twitter id',
+        e,
+        req.params.id,
+      )
+      res.status(500).end()
+      return
+    }
+
+    res.json({
+      twitterID: req.params.id,
+      address: data.Body.toString(),
+    })
+  })
+
+  app.get(`${pathPrefix}/user/ethereum/:address`, async function(req, res) {
+    let data
+    try {
+      data = await s3GetObject({
+        Key: `ethToTwitter/${req.params.address.toLowerCase()}`,
+      })
+    } catch (e) {
+      if (e.code === 'NoSuchKey') {
+        res.status(404).end()
+        return
+      }
+      console.error(
+        'unexpected error getting s3 for ethereum address',
+        e,
+        req.params.address,
+      )
+      res.status(500).end()
+      return
+    }
+
+    res.json({
+      twitterID: data.Body.toString(),
+      address: req.params.address,
+    })
   })
 
   app.get(`${pathPrefix}/user/linkAccounts/challenge`, async function(
@@ -92,6 +145,15 @@ const setupRoutes = (
       res.status(400).json({ verified: false })
       return
     }
+
+    await s3Upload({
+      Key: `ethToTwitter/${address.toLowerCase()}`,
+      Body: `${req.user.id}`,
+    })
+    await s3Upload({
+      Key: `twitterToEth/${req.user.id}`,
+      Body: `${address}`,
+    })
 
     res.json({ verified: true })
   })
