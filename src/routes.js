@@ -1,6 +1,9 @@
 const passport = require('passport')
 const express = require('express')
 const util = require('util')
+const http = require('http')
+const fetch = require('node-fetch')
+const Twit = require('twit')
 
 const S3 = require('aws-sdk/clients/s3')
 
@@ -11,6 +14,16 @@ const setupRoutes = (
   pathPrefix = '/_auth/eeta',
   loginFailedRouteArg,
 ) => {
+  // TODO(someday): take secrets as params
+  const twit = new Twit({
+    consumer_key: process.env.TWITTER_BOT_CLIENT_KEY,
+    consumer_secret: process.env.TWITTER_BOT_CLIENT_SECRET,
+    access_token: process.env.TWITTER_BOT_ACCESS_TOKEN,
+    access_token_secret: process.env.TWITTER_BOT_ACCESS_SECRET,
+    timeout_ms: 10 * 1000,
+    strictSSL: true,
+  })
+
   app.use(express.json())
   var s3bucket = new S3({
     params: { Bucket: s3BucketName },
@@ -68,6 +81,19 @@ const setupRoutes = (
       twitterID: req.params.id,
       address: data.Body.toString(),
     })
+  })
+
+  app.get(`${pathPrefix}/user/twitter/username/:id`, async function(req, res) {
+    try {
+      const data = await twit.get('users/show', { user_id: req.params.id })
+      res.json({
+        twitterID: req.params.id,
+        twitterUsername: data.data.screen_name,
+      })
+    } catch (e) {
+      console.error('error fetching username for user', e)
+      res.status(e.statusCode || 500).end()
+    }
   })
 
   app.get(`${pathPrefix}/user/ethereum/:address`, async function(req, res) {
