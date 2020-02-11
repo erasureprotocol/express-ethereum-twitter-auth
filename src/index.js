@@ -8,10 +8,11 @@ function routes(
   jwtSecret,
   s3BucketName,
   prefix = '/_auth/eeta',
+  network = 'kovan',
   ethersProvider,
 ) {
   if (!ethersProvider) {
-    ethersProvider = ethers.getDefaultProvider('kovan')
+    ethersProvider = ethers.getDefaultProvider(network)
   }
   // Setup routes with promise-router
   const verifier = new ChallengeVerifier(jwtSecret, ethersProvider)
