@@ -116,8 +116,20 @@ const setupRoutes = (
       return
     }
 
+    const twitterID = data.Body.toString()
+    try {
+      data = await twit.get('users/show', { user_id: twitterID })
+    } catch (e) {
+      console.error('error fetching twitter data for user', twitterID, e)
+      res.status(e.statusCode || 500).end()
+      return
+    }
+
     res.json({
-      twitterID: data.Body.toString(),
+      twitterID: twitterID,
+      photo: data.data.profile_image_url_https,
+      username: data.data.screen_name,
+      displayName: data.data.name,
       address: req.params.address,
     })
   })
