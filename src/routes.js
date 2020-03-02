@@ -130,6 +130,7 @@ const setupRoutes = (
       photo: data.data.profile_image_url_https,
       username: data.data.screen_name,
       displayName: data.data.name,
+      verified: data.data.verified,
       address: req.params.address,
     })
   })
