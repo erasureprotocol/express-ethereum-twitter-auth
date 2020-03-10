@@ -159,6 +159,17 @@ const setupRoutes = (
 
     const { challenge, signature, address } = req.body
 
+    try {
+      data = await s3GetObject({
+        Key: `ethToTwitter/${address.toLowerCase()}`,
+      })
+    } catch (e) {
+      if (e.code !== 'NoSuchKey') {
+        res.status(400)
+        res.json({ error: 'address already associated with a twitter user' })
+      }
+    }
+
     const data = '0x' + Buffer.from(challenge).toString('hex')
 
     if (!(await challengeVerifier.verifyChallenge(challenge, req.user.id))) {
