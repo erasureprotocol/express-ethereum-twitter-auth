@@ -25,7 +25,7 @@
   "dependencies": {
     "aws-sdk": "^2.610.0",
     "ethers": "^4.0.44",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-promise-router": "^3.0.3",
     "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
